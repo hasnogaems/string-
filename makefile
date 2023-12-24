@@ -1,5 +1,5 @@
  all:
-	gcc main.c ssprintf_ref.c -lm
+	gcc main.c ssprintf_ref.c sscanf.c -lm
 
  run:
 	gcc main.c $(ARGS)

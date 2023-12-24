@@ -6,12 +6,14 @@ typedef struct sscanFlags{
 int s21sscanf(const char *str, const char *format, ...){
 va_list args;
 va_start(args, format);
-sscanFlags sscan_Flags;
+flagscanf Flagscanf;
 while(*format!='\0'){
+    printf("here?\n");
     if(*format=='%'){
-        sscan_Flags=scanfparser(format);
+        Flagscanf=scanfparser(format);
+        
     }
 }
-
+format++;
 
 }

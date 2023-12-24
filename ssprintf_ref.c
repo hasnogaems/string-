@@ -177,7 +177,7 @@ return s;
        flagscanf scanfparser(const char *format){
         flagscanf sscan_Flags={{0}, NULL};
         format++;
-        while(*format!=' '){
+        while(*format!=' '&&*format!='\0'){
            // printf("here?:");
         switch(*format){
             case'[':

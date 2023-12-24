@@ -16,9 +16,11 @@ int main(){
     // printf("ori: %s", stdout2);
 
     char str[80];
+    char str21[80];
     int i;
     int y;
     sscanf("hello 1 2 3 4 5", "%s%d", str, &i);
+    s21sscanf("hello 1 2 3 4 5", "%s%d", str21, &y);
     printf("%s %d", str, i);
 
     
