@@ -174,4 +174,22 @@ return s;
 
     }
 
+       flags scanfparser(const char *format){
+        flagsImpl sscan_Flags={{0}, NULL};
+        format++;
+        while(*format!=' '){
+           // printf("here?:");
+        switch(*format){
+            case'[':
+                // logic parsing regular
+                sscan_Flags.regular == NULL;
+                break;
+            default:
+                sscan_Flags.base = parser(format); 
+        }
+    return sscan_Flags;
+
+
+    }
+
 

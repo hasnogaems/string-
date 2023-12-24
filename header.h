@@ -9,6 +9,11 @@ typedef struct flags{
 
 } flags;
 
+typedef struct {
+    flags base;
+    char* regular;
+} flagsImpl;
+
 int s21_sprintf(char *str, const char *format, ...);
 char* write_string(flags Flags, va_list arg);
 char* write_int(flags Flags, va_list arg);
