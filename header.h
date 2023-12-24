@@ -9,10 +9,10 @@ typedef struct flags{
 
 } flags;
 
-typedef struct {
+typedef struct flagscanf{
     flags base;
     char* regular;
-} flagsImpl;
+} flagscanf;
 
 int s21_sprintf(char *str, const char *format, ...);
 char* write_string(flags Flags, va_list arg);
