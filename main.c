@@ -8,9 +8,12 @@ int main(){
     // printf("The day is %i , the month is %s, the year is %i ", day, month, year);
 
     char stdout[100];
-    s21_sprintf(stdout, "hello%d hello%d\n", 1, 2);
-    
-    printf("%s", stdout);
+    char string[]="STRING";
+    char stdout2[100];
+    s21_sprintf(stdout, "o%s hello%djjjj\n", string, 22222222);
+    sprintf(stdout2, "o%s hello%djjjj\n", string, 22222222);
+    printf("s21: %s", stdout);
+    printf("ori: %s", stdout2);
 
     
 
