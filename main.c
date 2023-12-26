@@ -21,7 +21,8 @@ int main(){
     int y;
     sscanf("hello 1 2 3 4 5", "%s%d", str, &i);
     s21sscanf("hello 1 2 3 4 5", "%s%d", str21, &y);
-    printf("%s %d", str, i);
+    printf("orig: %s %d\n", str, i);
+    printf("s21 : %s %d\n", str21, y);
 
     
 

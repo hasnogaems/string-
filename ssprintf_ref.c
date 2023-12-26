@@ -16,7 +16,7 @@ int s21_sprintf(char *str, const char *format, ...){
 
         if(*format=='%'){
            Flags=parser(format); // создаем зануляем и заполняем структуру флаги, идем от процента
-           tmp=concat_type(Flags, arg);
+           tmp=concat_type(Flags, arg);//считываем флаги и пишем в строку
            
            strcat(str, tmp);
            move_str=strlen(tmp);
@@ -133,6 +133,8 @@ int itoa(int num, char *str, int base) {
     return add_this; //мы допишем это в str вместо %d
    }
 
+
+
 char* write_int(flags Flags, va_list arg){
     int i=va_arg(arg, int);
     char* x=malloc(sizeof(char)*100);
@@ -141,6 +143,8 @@ char* write_int(flags Flags, va_list arg){
 return x;
 
 }
+
+
 
 char* write_string(flags Flags, va_list arg){
     char* s=malloc(sizeof(char)*100);
@@ -174,23 +178,6 @@ return s;
 
     }
 
-       flagscanf scanfparser(const char *format){
-        flagscanf sscan_Flags={{0}, NULL};
-        format++;
-        while(*format!=' '&&*format!='\0'){
-           // printf("here?:");
-        switch(*format){
-            case'[':
-                // logic parsing regular
-                sscan_Flags.regular == NULL;
-                break;
-            default:
-                sscan_Flags.base = parser(format); 
-        }
-    return sscan_Flags;
-
-
-    }
-       }
+       
 
 
