@@ -9,12 +9,13 @@ va_list args;
 int move_str;
 va_start(args, format);
 char tmp[100];
+char* tmp_pointer=&tmp;
 flagscanf Flagscanf;
 while(*format!='\0'){
     printf("here?\n");
     if(*format=='%'){
         Flagscanf=scanfparser(format);
-        tmp=scanf_concat_type(Flagscanf, args);
+        tmp_pointer=scanf_concat_type(Flagscanf, args);
         strcat(str, tmp);
         move_str=strlen(tmp);
 
