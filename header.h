@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <strings.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
+#define S21_NULL ((void *)0)
 typedef struct flags{
     int integer;
     int string;
@@ -11,6 +14,8 @@ typedef struct flags{
 
 typedef struct flagscanf{
     flags base;
+    int fspace, fminus, fplus, fsharp, fzero;
+    
     char* regular;
 } flagscanf;
 
@@ -21,5 +26,6 @@ flags parser(const char *format);
 char*  concat_type(flags Flags, va_list arg);
 int itoa(int, char* , int );
 int s21sscanf(const char *str, const char *format, ...);
-flagscanf scanfparser(const char *format);
+void scanfparser_spec(const char *format, flagscanf*);
 char*  scanf_concat_type(flagscanf Flags, va_list arg);
+void scanfparser_flags(const char *format, flagscanf* Flags);

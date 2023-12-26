@@ -156,8 +156,8 @@ return s;
     flags parser(const char *format){
         flags Flags={0};
         format++;
-        while(*format!=' '){
-           // printf("here?:");
+        while(*format=='d'||*format=='s'){
+           printf("here?:parser163");
         switch(*format){
             
         case'd':
