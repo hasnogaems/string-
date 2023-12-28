@@ -1,5 +1,6 @@
 #include "header.h"
 #include <stdarg.h>
+#include <stdlib.h>
 typedef struct sscanFlags{
     int d;
 } sscanFlags;
@@ -19,7 +20,7 @@ while(*format!='\0'){
         scanfparser_flags(format, &Flagscanf);
         scanfparser_spec(format, &Flagscanf);
         //Flagscanf=scanfparser(format);
-        tmp=scanf_concat_type(Flagscanf, args);
+        tmp=scanf_concat_type(Flagscanf, args, source);
         
         //strcat(, tmp);
         //move_str=strlen(tmp);
@@ -97,14 +98,19 @@ void scanfparser_flags(const char *format, flagscanf* Flags){
     }
        }      
  
-char* scanf_write_int(flagscanf Flags, va_list arg){
-    int i=va_arg(arg, int);
-    char x[100];
+int scanf_write_int(flagscanf Flags, va_list arg, const char* source ){
+    int i;
+    
+    while(*source!='\0'){
+        if(*source>=0&&*source<=57){
+        i=atoi(source);break;}
+        source++;
+    }
     
     //x=itoa(va_arg(arg, int), x, 10);
-    itoa(i, x, 10);
-    char* point=x;
-return point;
+    
+    
+return i;
 
 }
 
@@ -116,10 +122,10 @@ return point;
 
 }
 
-   char*  scanf_concat_type(flagscanf Flags, va_list arg){
-    char* add_this;
+   void*  scanf_concat_type(flagscanf Flags, va_list arg, const char* source){
+    void* add_this=malloc(1000000);
     if(Flags.base.integer==1){
-       add_this=scanf_write_int(Flags, arg);
+       add_this=(void*)scanf_write_int(Flags, arg, source);
     }
     else if(Flags.base.string==1){
         add_this=scanf_write_string(Flags, arg);
