@@ -6,12 +6,13 @@ typedef struct sscanFlags{
 
 int s21sscanf(const char* source, const char *format, ...){
 va_list args;
-flagscanf sscan_Flags={{0}, S21_NULL};
+
+flagscanf sscan_Flags={{0}, 0};
 
 int move_str;
 va_start(args, format);
 char* tmp;
-flagscanf Flagscanf={{0}, S21_NULL};
+flagscanf Flagscanf={{0}, 0};
 while(*format!='\0'){
     printf("here?\n");
     if(*format=='%'){
@@ -29,6 +30,8 @@ while(*format!='\0'){
 
 
 }
+printf("Flagscanf:\nbase.integer=%d\nbase.string=%d\nfplus=%d\n", Flagscanf.base.integer, Flagscanf.base.string, Flagscanf.fplus);
+//printf("Flagscanf:\nbase->integer=%d\n", Flagscanf.base.integer);
 }
 
 // void scanfparser_spec(const char *format, flagscanf* Flags){
@@ -79,16 +82,16 @@ void scanfparser_flags(const char *format, flagscanf* Flags){
         
         format++;
         while(*format!='\0'){
-           // printf("here?:");
+            printf("here?:82");
         switch(*format){
             case'[':
                 // logic parsing regular
                 Flags->regular == NULL;
                 break;
             default:
-                Flags->base = parser(format); 
+                Flags->base = parser(&format, Flags->base); 
         }
-    
+    //format++;
 
 
     }

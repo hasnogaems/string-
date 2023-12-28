@@ -15,7 +15,7 @@ int s21_sprintf(char *str, const char *format, ...){
         //printf("here?");
 
         if(*format=='%'){
-           Flags=parser(format); // создаем зануляем и заполняем структуру флаги, идем от процента
+           Flags=parser(&format, Flags); // создаем зануляем и заполняем структуру флаги, идем от процента
            tmp=concat_type(Flags, arg);//считываем флаги и пишем в строку
            
            strcat(str, tmp);
@@ -153,12 +153,12 @@ return s;
 
 }
 
-    flags parser(const char *format){
-        flags Flags={0};
-        format++;
-        while(*format=='d'||*format=='s'){
+    flags parser(const char **format, flags Flags){
+        //flags Flags={0};
+        (*format)++;
+        while(**format=='d'||**format=='s'){
            printf("here?:parser163");
-        switch(*format){
+        switch(**format){
             
         case'd':
             Flags.integer=1;
@@ -171,7 +171,7 @@ return s;
         default:
             break;  }
             
-            format++;
+            (*format)++;
     }
     return Flags;
 
