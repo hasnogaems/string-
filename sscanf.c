@@ -1,6 +1,7 @@
 #include "header.h"
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdint.h>
 typedef struct sscanFlags{
     int d;
 } sscanFlags;
@@ -21,7 +22,8 @@ while(*format!='\0'){
         scanfparser_spec(format, &Flagscanf);
         //Flagscanf=scanfparser(format);
         tmp=scanf_concat_type(Flagscanf, args, source);
-        
+        //va_arg(args,char*);
+        printf("tmp=%s\n", tmp);
         //strcat(, tmp);
         //move_str=strlen(tmp);
 
@@ -122,14 +124,15 @@ return point;
 
 }
 
-   void*  scanf_concat_type(flagscanf Flags, va_list arg, const char* source){
-    void* add_this=malloc(1000000);
+   void* scanf_concat_type(flagscanf Flags, va_list arg, const char* source){
+    void* add_this=malloc(10000);
     if(Flags.base.integer==1){
-       add_this=(void*)scanf_write_int(Flags, arg, source);
+       add_this=(void*)(uintptr_t)scanf_write_int(Flags, arg, source);
     }
     else if(Flags.base.string==1){
         add_this=scanf_write_string(Flags, arg);
     }
-    return add_this; //мы допишем это в str вместо %d
+    return (void*)add_this; //мы допишем это в str вместо %d
    }
+
 
