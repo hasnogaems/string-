@@ -153,7 +153,7 @@ return s;
 
 }
 
-    flags parser(const char **format, flags Flags){
+    flags    parser(const char **format, flags Flags){
         //flags Flags={0};
         (*format)++;
         while(**format=='d'||**format=='s'){

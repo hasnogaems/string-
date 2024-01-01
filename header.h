@@ -28,5 +28,5 @@ char*  concat_type(flags Flags, va_list arg);
 int itoa(int, char* , int );
 int s21sscanf(const char *str, const char *format, ...);
 void scanfparser_spec(const char *format, flagscanf*);
-void*  scanf_concat_type(flagscanf Flags, va_list arg, const char* source);
-void scanfparser_flags(const char *format, flagscanf* Flags);
+void scanf_concat_type(flagscanf Flags, va_list arg, const char* source);                  
+flagscanf scanfparser_flags(const char *format);
