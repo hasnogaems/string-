@@ -18,12 +18,13 @@ flagscanf Flagscanf={{0}, 0};
 while(*format!='\0'){
     printf("here?\n");
     if(*format=='%'){
-        scanfparser_flags(format, &Flagscanf);
-        scanfparser_spec(format, &Flagscanf);
+        scanfparser_flags(format, &Flagscanf); // заполняем от ' ' до 0
+        scanfparser_spec(format, &Flagscanf); // заполняем спецификаторы например d или s
         //Flagscanf=scanfparser(format);
-        tmp=scanf_concat_type(Flagscanf, args, source);
+        tmp=scanf_concat_type(Flagscanf, args, source); //возвращаем то, что мы пишем в переменную,
         //va_arg(args,char*);
         printf("tmp=%s\n", tmp);
+        //как вообще подставить в функцию имя переменной когда оно само переменная?
         //strcat(, tmp);
         //move_str=strlen(tmp);
 
@@ -101,26 +102,48 @@ void scanfparser_flags(const char *format, flagscanf* Flags){
        }      
  
 int* scanf_write_int(flagscanf Flags, va_list arg, const char* source ){
-    int* i=calloc(sizeof(int));
+    int* i=calloc(1000, sizeof(int));
+    int i_i;
     
     while(*source!='\0'){
         if(*source>=0&&*source<=57){
-        i=atoi(source);break;}
+        i_i=atoi(source);break;}
+        i=&i_i;
         source++;
     }
     
     //x=itoa(va_arg(arg, int), x, 10);
     
     
-return &i;
+return i;
 
 }
 
-char* scanf_write_string(flagscanf Flags, va_list arg){
-    char s[100];
-    char* point=s;
-    point=va_arg(arg, char*);
-return point;
+char* scanf_write_string(flagscanf Flags, va_list arg, const char* source){
+    char* variable=va_arg(arg, char*);
+    char buffer[300];
+    int wcount=0;
+    while(*source!=' '){
+        buffer[wcount]=*source;
+        wcount++;
+        source++;
+
+
+    }
+    buffer[wcount]='\0';
+    while(wcount>=0){
+    variable[wcount]=buffer[wcount];
+        wcount--;
+
+    }
+   
+    
+        printf("BUFFER=%s\n", buffer);
+        printf("VARIABLE=%s\n", variable);
+
+    
+    
+return variable;
 
 }
 
@@ -129,10 +152,11 @@ return point;
     if(Flags.base.integer==1){
        add_this=(void*)scanf_write_int(Flags, arg, source);
     }
-    else if(Flags.base.string==1){
-        add_this=scanf_write_string(Flags, arg);
+    if(Flags.base.string==1){
+        add_this=scanf_write_string(Flags, arg, source);
     }
+    printf("ADDTHIS=%s", add_this);
     return (void*)add_this; //мы допишем это в str вместо %d
-   }
+   }     
 
 

@@ -17,11 +17,12 @@ int main(){
      printf("ori: %s", stdout2);
 
     char str[80];
-    char str21[80];
+    char str21[]="TES1T1";//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то
     int i;
     int y;
     //sscanf("hello 1 2 3 4 5", "%s%d", str, &i);
     s21sscanf("hello 1 2 3 4 5", "%+s%d", str21, &y);
+    printf("\nmain printf string:%s", str21);
     
     
     // printf("orig: %s %d\n", str, i);
