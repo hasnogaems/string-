@@ -155,7 +155,7 @@ return s;
 
     flags    parser(const char **format, flags Flags){
         //flags Flags={0};
-        (*format)++;
+        //(*format)++;
         while(**format=='d'||**format=='s'){
            printf("here?:parser163");
         switch(**format){

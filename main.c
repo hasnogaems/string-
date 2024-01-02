@@ -22,15 +22,12 @@ int main(){
     int y, i;
     sscanf("111 hello 1 2 3 4 5", "%s%d", str, &i);
     s21sscanf("hello 1111 2 3 4 5", "%+s%d", str21, &y);
-    printf("\nmain printf string:%s\n", str21);
+    printf("\nmain printf string:%s %d\n", str21, &y);
     
     
     printf("orig: %s %d\n", str, i);
     // printf("s21 : %s %d\n", str21, y);
-
-    
-
-
-    }
+    return 0;
+}
 
 
