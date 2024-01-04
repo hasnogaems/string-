@@ -16,16 +16,22 @@ int main(){
     // printf("s21: %s", stdout);
      printf("ori: %s", stdout2);
 
-    char str[80];
-    char str21[6];//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то, с размером работает 6 работает 7 не работает а на убунте работает не взирая на это
+    char str[80], sstr[80];
+    char str21[]="HEYHEYHEY";//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то, с размером работает 6 работает 7 не работает а на убунте работает не взирая на это
     
-    int y, i;
-    sscanf("111 hello 1 2 3 4 5", "%s%d", str, &i);
-    s21sscanf("hello 1111 2 3 4 5", "%+s%d", str21, &y);
-    printf("\nmain printf string:%s %d\n", str21, &y);
+    int y,z, i=5;
+    y=5;
+    int ii;
+    
+    sscanf("777 test 1111 2 3 4 5", "%s%d%s%d", str, &i, sstr, &ii);
+    s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
+    //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
+     //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
+    printf("\nmain printf string:%s %d %d\n", str21, y, z);
+   
     
     
-    printf("orig: %s %d\n", str, i);
+    printf("orig: %s %d %s %d\n", str, i, sstr, ii);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

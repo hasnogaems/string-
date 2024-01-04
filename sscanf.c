@@ -12,6 +12,10 @@ va_list args;
 flagscanf sscan_Flags={{0}, 0};
 
 va_start(args, format);
+// char* s=va_arg(args, char*);
+// printf("STRING FROM MAIN=%s\n", s);
+// int* x=va_arg(args, int*);
+// printf("INT X IN MAIN=%d\n", *x);
 char* tmp;
 flagscanf Flagscanf={{0}, 0};
 while(*format!='\0'){
@@ -105,25 +109,34 @@ flagscanf scanfparser_flags(const char** format){
  
 int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
     int* i=va_arg(arg, int*);
+    printf("VALUE OF INT I FROM MAIN=%d\n", *i);
+    while(**source==' ')(*source)++;
     int i_i;
     char buffer[1000];
     char* pbuffer=buffer;
+    int is_int=0;//вырастет только если была запись в int
     
-    while(**source!='\0'){
+    while(**source!='\0'&&**source!=' '){
         if(**source>=0&&**source<=57&&**source!=32){
+            is_int=1;
             while(**source!=' '){
                 *pbuffer=**source;
                 pbuffer++;
                 (*source)++;
+               
             }
         i_i=atoi(buffer);
         printf("WRITTEN INT=%d\n", i_i);
         
         break;}
         
-        (*source)++;
-        i++;
+       (*source)++;
+        
     }
+    if(is_int)*i=i_i;
+    
+    printf("INT WRITTEN TO MAIN VAR=%d\n", *i);
+
     
     //x=itoa(va_arg(arg, int), x, 10);
     
@@ -168,7 +181,7 @@ return variable;
     if(Flags.base.string==1){
         add_this=scanf_write_string(Flags, arg, source);
     }
-    printf("ADDTHIS=%s", add_this);
+    printf("ADDTHIS=%s", (char*)add_this);
     //return (void*)add_this; //мы допишем это в str вместо %d
    }     
 
