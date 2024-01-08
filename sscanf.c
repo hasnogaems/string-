@@ -23,7 +23,7 @@ while(*format!='\0'){
         //Flagscanf=scanfparser(format);
         tmp=scanf_concat_type(Flagscanf, args, source);
         //va_arg(args,char*);
-        printf("tmp=%s\n", tmp);
+printf("!!!!tmp!!!!!=%s\n", tmp);
         //strcat(, tmp);
         //move_str=strlen(tmp);
 
@@ -100,12 +100,12 @@ void scanfparser_flags(const char *format, flagscanf* Flags){
     }
        }      
  
-int scanf_write_int(flagscanf Flags, va_list arg, const char* source ){
-    int i;
+int* scanf_write_int(flagscanf Flags, va_list arg, const char* source ){
+    int* i=malloc(10000);
     
     while(*source!='\0'){
         if(*source>=0&&*source<=57){
-        i=atoi(source);break;}
+        *i=atoi(source);break;}
         source++;
     }
     
@@ -127,7 +127,7 @@ return point;
    void* scanf_concat_type(flagscanf Flags, va_list arg, const char* source){
     void* add_this=malloc(10000);
     if(Flags.base.integer==1){
-       add_this=(void*)(uintptr_t)scanf_write_int(Flags, arg, source);
+       add_this=scanf_write_int(Flags, arg, source);
     }
     else if(Flags.base.string==1){
         add_this=scanf_write_string(Flags, arg);
