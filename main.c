@@ -23,7 +23,7 @@ int main(){
     y=5;
     int ii;
     
-    sscanf("777 test 1111 2 3 4 5", "%s%d%s%d", str, &i, sstr, &ii);
+    sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
     s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
@@ -31,7 +31,7 @@ int main(){
    
     
     
-    printf("orig: %s %d %s %d\n", str, i, sstr, ii);
+    printf("orig: %s %d %d\n", str, i, ii);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

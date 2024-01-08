@@ -22,7 +22,7 @@ while(*format!='\0'){
     printf("here?\n");
     if(*format=='%'){
         format++;
-        Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0
+        Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0 почему не растет указатель я разименовываю 1 раз, значит должен расти формат
         scanfparser_spec(format, &Flagscanf); // заполняем спецификаторы например d или s
         //Flagscanf=scanfparser(format);
         scanf_concat_type(Flagscanf, args, &source); //возвращаем то, что мы пишем в переменную,
