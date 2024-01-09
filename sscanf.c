@@ -113,9 +113,10 @@ int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
     while(**source==' ')(*source)++;
     int i_i;
     char buffer[1000];
+    int count=0;
     char* pbuffer=buffer;
     int is_int=0;//вырастет только если была запись в int
-    
+    if(**source=='\0'||**source==' '||(**source>=0&&**source<=57&&**source!=32)){
     while(**source!='\0'&&**source!=' '){
         if(**source>=0&&**source<=57&&**source!=32){
             is_int=1;
@@ -123,9 +124,14 @@ int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
                 *pbuffer=**source;
                 pbuffer++;
                 (*source)++;
-               
+               count++;
             }
-        i_i=atoi(buffer);
+            
+        i_i=atoi(buffer); //buffer почему-то остается в памяти, поэтому заводим счетчик count и зануляем buffer после atoi
+        while(count>0){
+            buffer[count]='\0';
+            count--;
+        }
         printf("WRITTEN INT=%d\n", i_i);
         
         break;}
@@ -133,6 +139,8 @@ int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
        (*source)++;
         
     }
+    }
+
     if(is_int)*i=i_i;
     
     printf("INT WRITTEN TO MAIN VAR=%d\n", *i);
@@ -148,20 +156,21 @@ return i;
 char* scanf_write_string(flagscanf Flags, va_list arg, const char** source){
     char* variable=va_arg(arg, char*);
     char buffer[300];
-    int wcount=0;
-    while(**source!=' '){
-        buffer[wcount]=**source;
+    int wcount=0;//счетчик сколько раз мы записали, чтобы отмотать
+    while(**source!=' '){ //пишем из source в буфер, а почему нельзя сразу писать в variable?
+        variable[wcount]=**source;
         wcount++;
         (*source)++;
 
 
     }
-    buffer[wcount]='\0';
-    while(wcount>=0){
-    variable[wcount]=buffer[wcount];//segfault
-        wcount--;
 
-    }
+    variable[wcount]='\0';
+    // while(wcount>=0){
+    // variable[wcount]=buffer[wcount];//segfault
+    //     wcount--;
+
+    // }
    
     
         printf("BUFFER=%s\n", buffer);
