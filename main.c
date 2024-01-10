@@ -24,7 +24,7 @@ int main(){
     int ii, zz, zz1;
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("777  1111 2 3 4 5", "%s%d%d%d", str, &i, &ii, &zz);
+    sscanf("777  1111 2 3 4 5", "%+s%d%d%d", str, &i, &ii, &zz);
     //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
     s21sscanf("777   1111 2 3 4 5", "%s%d%d%d", str21, &y, &z, &zz1);
     //             source                           va_list arg

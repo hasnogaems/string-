@@ -190,8 +190,15 @@ return variable;
     if(Flags.base.string==1){
         add_this=scanf_write_string(Flags, arg, source);
     }
+    if(Flags.base.decimal_octal_hex==1){
+        add_this=(void*)scanf_write_decimal_octal_hex(arg, source);
+    }
     printf("ADDTHIS=%s", (char*)add_this);
     //return (void*)add_this; //мы допишем это в str вместо %d
    }     
 
+void* scanf_write_decimal_octal_hex(va_list arg, const char** source){
+    
+
+}
 

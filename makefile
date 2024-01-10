@@ -7,3 +7,6 @@
 
  flags:
 	gcc -Wall main.c ssprintf_ref.c sscanf.c -lm	
+
+more:
+	gcc main.c stren.c

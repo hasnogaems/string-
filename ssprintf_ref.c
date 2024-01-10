@@ -160,14 +160,16 @@ return s;
            printf("here?:parser163");
         switch(**format){
             
-        case'd':
+        case 'd':
             Flags.integer=1;
             Flags.move_format=2;
             break;
-        case's':
+        case 's':
             Flags.string=1;
             Flags.move_format=2;
             break;  
+        case 'i':
+            Flags.decimal_octal_hex=1;    
         default:
             break;  }
             

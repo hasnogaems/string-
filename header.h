@@ -9,6 +9,7 @@ typedef long unsigned s21_size_t;
 typedef struct flags{
     int integer;
     int string;
+    int decimal_octal_hex;
     int move_format;
 
 } flags;
