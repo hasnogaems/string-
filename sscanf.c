@@ -116,7 +116,7 @@ int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
     int count=0;
     char* pbuffer=buffer;
     int is_int=0;//вырастет только если была запись в int
-    if(**source=='\0'||**source==' '||(**source>=0&&**source<=57&&**source!=32)){
+    if(**source=='\0'||**source==' '||(**source>=0&&**source<=57&&**source!=32)){ //это нужно чтобы не двигало курсор если мы пытаемся прочитать строку как d
     while(**source!='\0'&&**source!=' '){
         if(**source>=0&&**source<=57&&**source!=32){
             is_int=1;
@@ -192,13 +192,62 @@ return variable;
     }
     if(Flags.base.decimal_octal_hex==1){
         add_this=(void*)scanf_write_decimal_octal_hex(arg, source);
+         printf("ADDTHIS=%d", (int*)add_this);
     }
-    printf("ADDTHIS=%s", (char*)add_this);
+   
     //return (void*)add_this; //мы допишем это в str вместо %d
    }     
 
-void* scanf_write_decimal_octal_hex(va_list arg, const char** source){
-    
+int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
+    int* variable_adress=va_arg(arg, int*);
+    int buffer_integer;
+    while(**source==' ')(*source)++;
+    char buffer[1000];
+    char* pbuffer=buffer;
+    int is_int=0;
+    int is_hex=0;
+    int is_octal=0;
+    if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
+        while(**source!='\0'&&**source!=' '){
+            if(**source>=0&&**source<=57&&is_int_f(**source)){
+                if(**source=='0'&&*(*source+1)=='x'){
+                is_hex=1;(*source)=(*source)+2;}
+                if(**source=='0'&&is_int_f(*(*source)+1)){
+                   // if(**source=='0'&&is_int_f(&((*source)+1))){ почему так нельзя хотел передавать функции указатель на указатель
+                is_octal=1;(*source)++;
+                }
+             if(!is_hex)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
+             while(**source!=' '){
+                *pbuffer=**source;
+               //cannot do that? (&buffer)++;
+               //cannot do that? buffer++;
+               //must make char* pbuffer=buffer ?
+                (*source)++;
+                pbuffer++;
+                //count++;
 
+             }
+            *pbuffer='\0';
+             
+            }
+        }
+
+    }
+    buffer_integer=atoi(buffer);
+
+    if(is_hex){
+        *variable_adress=dec_convert(buffer_integer, 16);
+    }
+    if(is_octal){
+        *variable_adress=dec_convert(buffer_integer, 8);
+    }
+
+}
+
+int is_int_f(char c){
+    int x=0;
+    if(c>=0&&c<=57&&c!=32)
+    x=1;
+    return x;
 }
 

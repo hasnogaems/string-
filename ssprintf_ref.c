@@ -156,7 +156,7 @@ return s;
     flags    parser(const char **format, flags Flags){
         //flags Flags={0};
         //(*format)++;
-        while(**format=='d'||**format=='s'){
+        while(**format=='d'||**format=='s'||**format=='i'){
            printf("here?:parser163");
         switch(**format){
             
@@ -179,6 +179,17 @@ return s;
 
 
     }
+
+    int dec_convert(int input, int base){
+    int power=0;
+    int dec=0;
+
+    while(input>0){
+    dec=dec+(input%10)*pow(base, power);
+    input=input/10;
+    power++;}
+    return dec;
+}
 
        
 

@@ -24,17 +24,17 @@ int main(){
     int ii, zz, zz1;
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("777  1111 2 3 4 5", "%+s%d%d%d", str, &i, &ii, &zz);
+    sscanf("0777  1111 2 3 4 5", "%i%d%d", &i, &ii, &zz);
     //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-    s21sscanf("777   1111 2 3 4 5", "%s%d%d%d", str21, &y, &z, &zz1);
+    s21sscanf("0777   1111 2 3 4 5", "%i%d%d", &y, &z, &zz1);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%s %d %d %d\n", str21, y, z, zz1);
+    printf("\nmain printf string:%d %d %d\n", y, z, zz1);
    
     
     
-    printf("orig: %s %d %d %d\n", str, i, ii, zz);
+    printf("orig:%d %d %d\n", i, ii, zz);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }
