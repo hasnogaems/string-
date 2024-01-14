@@ -91,7 +91,7 @@ flagscanf scanfparser_flags(const char** format){
  void scanfparser_spec(const char *format, flagscanf* Flags){
         
         //format++;
-        while(*format!='\0'&&*format!='%'){
+        while(*format!='\0'&&*format!='%'&&*format!=' '){
             printf("here?:82");
         switch(*format){
             case'[':
@@ -108,7 +108,7 @@ flagscanf scanfparser_flags(const char** format){
        }      
  
 int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
-    int* i=va_arg(arg, int*);
+    int* i=va_arg(arg, int*);// какое будет поведение у  va_arg  если тип аргумента не соответствует, например мы указываем int* а там лежит  char*
     printf("VALUE OF INT I FROM MAIN=%d\n", *i);
     while(**source==' ')(*source)++;
     int i_i;
@@ -241,10 +241,23 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
     if(is_octal){
         *variable_adress=dec_convert(buffer_integer, 8);
     }
-
+    if(is_int){
+        *variable_adress=buffer_integer;
+    }
     
 
 }
+
+// sscanf_write_e(va_list arg, const char** source){
+//     float* variable_address=va_arg(arg, float*);
+//     float buffer_float;
+//     while(**source==' ')(*source)++;
+//     char buffer[1000];
+//     char* pbuffer=buffer;
+//     int is_int=0;
+//     int is_scientific=0;
+
+// }
 
 int is_int_f(char c){
     int x=0;

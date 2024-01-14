@@ -169,7 +169,9 @@ return s;
             Flags.move_format=2;
             break;  
         case 'i':
-            Flags.decimal_octal_hex=1;    
+            Flags.decimal_octal_hex=1;   
+        case 'e':
+            Flags.e=1;     
         default:
             break;  }
             
