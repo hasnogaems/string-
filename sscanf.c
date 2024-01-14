@@ -192,7 +192,7 @@ return variable;
     }
     if(Flags.base.decimal_octal_hex==1){
         add_this=(void*)scanf_write_decimal_octal_hex(arg, source);
-         printf("ADDTHIS=%d", (int*)add_this);
+        // printf("ADDTHIS=%d\n", *((int*)add_this)); interesting segfault 
     }
    
     //return (void*)add_this; //мы допишем это в str вместо %d
@@ -241,6 +241,8 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
     if(is_octal){
         *variable_adress=dec_convert(buffer_integer, 8);
     }
+
+    
 
 }
 
