@@ -20,14 +20,14 @@ int main(){
     char str21[]="HEYHEYHEY";//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то, с размером работает 6 работает 7 не работает а на убунте работает не взирая на это
     
     float y=44,z;
-    float i=5;
+    float i=555;
     y=5;
     int ii, zz=77, zz1=88;
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("0x111  1111 2 3 4 5", "%e%s%d", &i, str, &zz);
+    sscanf("1.e+10  1111 2 3 4 5", "%e%s%d", &i, str, &zz);
     //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-    s21sscanf("0x111    1111 2 3 4 5", "%e%s%d", &y, str21, &zz1);
+    s21sscanf("11.22e+10    1111 2 3 4 5", "%e%s%d", &y, str21, &zz1);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);

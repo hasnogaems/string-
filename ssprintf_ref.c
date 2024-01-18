@@ -187,13 +187,51 @@ return s;
     int convert_to_dec(int input, int base){
     int power=0;
     int dec=0;
-
+    
     while(input>0){
     dec=dec+(input%10)*pow(base, power);
     input=input/10;
     power++;}
     return dec;
 }
+
+   float scientific_to_float(char* string){
+    char pre_dot[1000];
+    char post_dot[1000]="000000";
+    char exponent[1000];
+    int count=0;
+    while(*string!='.'){
+        pre_dot[count]=*(string);
+        string++;
+        count++;
+
+    }
+    pre_dot[count]='\0';
+    count=0;
+    while(*string!='e'&&*string!='E'){
+        post_dot[count]=*string;
+        string++;count++;
+    }
+    post_dot[count]='\0';
+    count=0;
+    while(*string!='+'&&*string!='-'){
+        *(string++);
+    }
+
+    while(*string!=' '){
+        exponent[count]=*(string);
+        count++;string++;
+    }
+    exponent[count]='\0';
+    
+    
+
+    
+    printf("\n\npredot=%s\n\n", pre_dot);
+    printf("\n\npostdot=%s\n\n", post_dot);
+    printf("\n\nexponentt=%s\n\n", exponent);
+
+   }
 
        
 

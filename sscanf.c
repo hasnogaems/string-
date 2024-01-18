@@ -267,16 +267,25 @@ void sscanf_write_e(va_list arg, const char** source){
             if(**source=='0'&&is_int_f(*(*source)+1)){
                 type.is_octal=1;(*source)++;
             }
-            for(int i=1;*(*source+i)!=' ';i++){
-                if(*(*source+i)=='e'||*(*source+i)=='E')
+            for(int i=1;*(*source+i)!=32;i++){ //тут если вместо 32 поставить ' ' почему то выкидывает из цикла на одну итерацию позже
+                if(*(*source+i)=='e'||*(*source+i)=='E'){
                 type.is_scientific=1;printf("is scientific\n");
+                
+                }
             }
-            if(!type.is_hex&&!type.is_octal)type.is_int=1;
+            if(!type.is_hex&&!type.is_octal&&!type.is_scientific)type.is_int=1;
+            while(**source!=32){
+                *pbuffer=**source;
+                (*source)++;
+                pbuffer++;
+            }
+            *pbuffer='\0';
     }
         }
         int integer_from_string=atoi(buffer);
-    if(type.is_hex)
-    *variable_address=convert_to_dec(integer_from_string, 16);    
+    if(type.is_scientific)
+    *variable_address=scientific_to_float(buffer);  
+    
             
     }
 
@@ -287,4 +296,6 @@ int is_int_f(char c){
     x=1;
     return x;
 }
+
+
 

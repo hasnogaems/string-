@@ -42,4 +42,5 @@ void scanf_concat_type(flagscanf Flags, va_list arg, const char** source);
 flagscanf scanfparser_flags(const char** format);
 int* scanf_write_decimal_octal_hex(va_list arg, const char** source);
 int convert_to_dec(int input, int base);
+float scientific_to_float(char* string);
 int is_int_f(char);
