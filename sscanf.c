@@ -19,7 +19,7 @@ va_start(args, format);
 char* tmp;
 flagscanf Flagscanf={{0}, 0};
 while(*format!='\0'){
-    printf("here?\n");
+    printf("22 here?\n");
     if(*format=='%'){
         format++;
         Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0 почему не растет указатель я разименовываю 1 раз, значит должен расти формат
@@ -194,6 +194,9 @@ return variable;
         add_this=(void*)scanf_write_decimal_octal_hex(arg, source);
         // printf("ADDTHIS=%d\n", *((int*)add_this)); interesting segfault 
     }
+    if(Flags.base.e==1){
+        sscanf_write_e(arg, source);
+    }
    
     //return (void*)add_this; //мы допишем это в str вместо %d
    }     
@@ -210,13 +213,13 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
     if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
         while(**source!='\0'&&**source!=' '){
             if(**source>=0&&**source<=57&&is_int_f(**source)){
-                if(**source=='0'&&*(*source+1)=='x'){
+                if(**source=='0'&&*(*source+1)=='x'){ //priority of * highter than + but not highter than ++ seems like
                 is_hex=1;(*source)=(*source)+2;}
                 if(**source=='0'&&is_int_f(*(*source)+1)){
-                   // if(**source=='0'&&is_int_f(&((*source)+1))){ почему так нельзя хотел передавать функции указатель на указатель
+                   // if(**source=='0'&&is_int_f(&((*source)+1))){ почему так нельзя хотел передавать функции указатель на указатель, переделал функцию чтобы брала чар
                 is_octal=1;(*source)++;
                 }
-             if(!is_hex)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
+             if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
              while(**source!=' '){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
@@ -248,16 +251,32 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
 
 }
 
-// sscanf_write_e(va_list arg, const char** source){
-//     float* variable_address=va_arg(arg, float*);
-//     float buffer_float;
-//     while(**source==' ')(*source)++;
-//     char buffer[1000];
-//     char* pbuffer=buffer;
-//     int is_int=0;
-//     int is_scientific=0;
+void sscanf_write_e(va_list arg, const char** source){
+    float* variable_address=va_arg(arg, float*);
+    float buffer_float;
+    while(**source==' ')(*source)++;
+    char buffer[1000];
+    char* pbuffer=buffer;
+    number_type type={0};
+    if(**source>=0&&**source<=57&&**source!=32){
+        while(**source!='\0'&&**source!=' '){
+            if(**source=='0'&&*(*source+1)=='x'){
+                type.is_hex=1; (*source)=(*source)+2;}//skip 0x to number
+            
+            if(**source=='0'&&is_int_f(*(*source)+1)){
+                type.is_octal=1;(*source)++;
+            }
+            for(int i=1;*(*source+i)!=' ';i++){
+                if(*(*source+i)=='e'||*(*source+i)=='E')
+                type.is_scientific=1;printf("is scientific\n");
+            }
+            if(!type.is_hex&&!type.is_octal)type.is_int=1;
+    }
+        }
+    if(type.is_hex)    
+            
+    }
 
-// }
 
 int is_int_f(char c){
     int x=0;

@@ -22,9 +22,17 @@ typedef struct flagscanf{
     char* regular;
 } flagscanf;
 
+typedef struct {
+    int is_int;
+    int is_hex;
+    int is_octal;
+    int is_scientific;
+} number_type;
+
 int s21_sprintf(char *str, const char *format, ...);
 char* write_string(flags Flags, va_list arg);
 char* write_int(flags Flags, va_list arg);
+void sscanf_write_e(va_list arg, const char** source);
 flags parser(const char **format, flags Flags);
 char*  concat_type(flags Flags, va_list arg);
 int itoa(int, char* , int );

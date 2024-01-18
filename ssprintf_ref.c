@@ -156,7 +156,7 @@ return s;
     flags    parser(const char **format, flags Flags){
         //flags Flags={0};
         //(*format)++;
-        while(**format=='d'||**format=='s'||**format=='i'){
+        while(**format=='d'||**format=='s'||**format=='i'||**format=='e'){
            printf("here?:parser163");
         switch(**format){
             
@@ -169,9 +169,11 @@ return s;
             Flags.move_format=2;
             break;  
         case 'i':
-            Flags.decimal_octal_hex=1;   
+            Flags.decimal_octal_hex=1;
+            break;   
         case 'e':
-            Flags.e=1;     
+            Flags.e=1;
+            break;     
         default:
             break;  }
             
