@@ -184,7 +184,7 @@ return s;
 
     }
 
-    int dec_convert(int input, int base){
+    int convert_to_dec(int input, int base){
     int power=0;
     int dec=0;
 

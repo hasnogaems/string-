@@ -239,10 +239,10 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
     buffer_integer=atoi(buffer);
 
     if(is_hex){
-        *variable_adress=dec_convert(buffer_integer, 16);
+        *variable_adress=convert_to_dec(buffer_integer, 16);
     }
     if(is_octal){
-        *variable_adress=dec_convert(buffer_integer, 8);
+        *variable_adress=convert_to_dec(buffer_integer, 8);
     }
     if(is_int){
         *variable_adress=buffer_integer;
@@ -254,6 +254,7 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
 void sscanf_write_e(va_list arg, const char** source){
     float* variable_address=va_arg(arg, float*);
     float buffer_float;
+    
     while(**source==' ')(*source)++;
     char buffer[1000];
     char* pbuffer=buffer;
@@ -273,7 +274,9 @@ void sscanf_write_e(va_list arg, const char** source){
             if(!type.is_hex&&!type.is_octal)type.is_int=1;
     }
         }
-    if(type.is_hex)    
+        int integer_from_string=atoi(buffer);
+    if(type.is_hex)
+    *variable_address=convert_to_dec(integer_from_string, 16);    
             
     }
 
