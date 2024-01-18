@@ -1,6 +1,6 @@
 #include "s21_sscanf.h"
 
-void decrese_width(params *param) {
+void  decrese_width(params *param) {
   if (param->width != -1) param->width--;
 }
 
@@ -234,7 +234,7 @@ long double s21_atof(const char **str, params *param) {
   param->flag_data_failed = 1;
 
   sign = set_sign(str, param);
-  int i = 0;
+  int i = 0; // позиция курсора?
   result_right = chr_to_dec(&i, str, param);
   e_value = e_check(str, &scale, param);
 

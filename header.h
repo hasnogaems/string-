@@ -43,4 +43,6 @@ flagscanf scanfparser_flags(const char** format);
 int* scanf_write_decimal_octal_hex(va_list arg, const char** source);
 int convert_to_dec(int input, int base);
 float scientific_to_float(char* string);
+long double char_to_dec(int* i, char str[]);
 int is_int_f(char);
+long double exponent_f(char exp[], float pre_plus_post);

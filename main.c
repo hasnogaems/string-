@@ -21,11 +21,11 @@ int main(){
     
     float y=44,z;
     float i=555;
-    y=5;
+    
     int ii, zz=77, zz1=88;
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("1.e+10  1111 2 3 4 5", "%e%s%d", &i, str, &zz);
+    sscanf("1.22e+10  1111 2 3 4 5", "%e%s%d", &i, str, &zz);
     //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
     s21sscanf("11.22e+10    1111 2 3 4 5", "%e%s%d", &y, str21, &zz1);
     //             source                           va_list arg

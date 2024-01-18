@@ -197,7 +197,9 @@ return s;
 
    float scientific_to_float(char* string){
     char pre_dot[1000];
+    float pre_dot_float;
     char post_dot[1000]="000000";
+    float post_dot_float;
     char exponent[1000];
     int count=0;
     while(*string!='.'){
@@ -208,6 +210,7 @@ return s;
     }
     pre_dot[count]='\0';
     count=0;
+    string++;
     while(*string!='e'&&*string!='E'){
         post_dot[count]=*string;
         string++;count++;
@@ -223,15 +226,60 @@ return s;
         count++;string++;
     }
     exponent[count]='\0';
-    
-    
+ int i=0; //количество знаков, заводим для знака после точки
+ pre_dot_float=(float)char_to_dec(&i, pre_dot);
+ i=0;
+ post_dot_float=(float)char_to_dec(&i, post_dot);
+ while(i>0){
+    post_dot_float /=10;
+    i--;
+
+ }
+ float return_this=pre_dot_float+post_dot_float;
+ return_this=exponent_f(exponent, return_this);
+
 
     
+
+    printf("\n\n post_dot_float=%f", pre_dot_float);
+    printf("\n\n post_dot_float=%f", post_dot_float);
     printf("\n\npredot=%s\n\n", pre_dot);
     printf("\n\npostdot=%s\n\n", post_dot);
-    printf("\n\nexponentt=%s\n\n", exponent);
+    printf("\n\nexponent=%s\n\n", exponent);
+    return return_this;
 
    }
+
+  long double char_to_dec(int* i, char str[]){
+    long double result = 0.0;
+    while(*str>=48&&*str<=57) {//0 to 9
+    (*i)++;
+    result *= 10;
+    result += *str-'0';
+    str++;
+      }
+       return result;
+  }
+
+  long double exponent_f(char exp[], float pre_plus_post){
+    int is_negative=0; 
+    float return_this;
+    if(*exp=='-'){
+            is_negative=1; }  
+            exp++;
+    
+if(!is_negative){
+return_this=pre_plus_post*(atoi(exp)*10);
+
+};
+printf("\n\nEXPONENTED=%f\n\n", return_this);
+return return_this;
+  }
+
+    
+
+  
+   
 
        
 
