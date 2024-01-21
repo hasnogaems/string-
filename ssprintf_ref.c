@@ -156,7 +156,7 @@ return s;
     flags    parser(const char **format, flags Flags){
         //flags Flags={0};
         //(*format)++;
-        while(**format=='d'||**format=='s'||**format=='i'||**format=='e'){
+        while(**format=='d'||**format=='s'||**format=='i'||**format=='e'||**format=='E'){
            printf("here?:parser163");
         switch(**format){
             
@@ -173,7 +173,10 @@ return s;
             break;   
         case 'e':
             Flags.e=1;
-            break;     
+            break; 
+        case 'E':
+            Flags.e=1;
+            break;        
         default:
             break;  }
             
@@ -196,11 +199,11 @@ return s;
 }
 
    float scientific_to_float(char* string){
-    char pre_dot[1000];
+    char pre_dot[1000000];
     float pre_dot_float;
-    char post_dot[1000]="000000";
+    char post_dot[1000000]="000000";
     float post_dot_float;
-    char exponent[1000];
+    char exponent[1000000];
     int count=0;
     while(*string!='.'){
         pre_dot[count]=*(string);
@@ -269,7 +272,7 @@ return s;
             exp++;
     
 if(!is_negative){
-return_this=pre_plus_post*(atoi(exp)*10);
+return_this=pre_plus_post*pow(10, (float)atoi(exp));
 
 };
 printf("\n\nEXPONENTED=%f\n\n", return_this);

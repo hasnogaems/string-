@@ -18,7 +18,8 @@ typedef struct flags{
 typedef struct flagscanf{
     flags base;
     int fspace, fminus, fplus, fsharp, fzero;
-    
+    int failed;
+   // flags* name; если сделать так, то создастся ли структура name или только указатель на несуществующую структуру    
     char* regular;
 } flagscanf;
 
@@ -32,15 +33,15 @@ typedef struct {
 int s21_sprintf(char *str, const char *format, ...);
 char* write_string(flags Flags, va_list arg);
 char* write_int(flags Flags, va_list arg);
-void sscanf_write_e(va_list arg, const char** source);
+void sscanf_write_e(va_list arg, const char** source, flagscanf*);
 flags parser(const char **format, flags Flags);
 char*  concat_type(flags Flags, va_list arg);
 int itoa(int, char* , int );
 int s21sscanf(const char *str, const char *format, ...);
 void scanfparser_spec(const char *format, flagscanf*);
-void scanf_concat_type(flagscanf Flags, va_list arg, const char** source);                  
+void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source);                  
 flagscanf scanfparser_flags(const char** format);
-int* scanf_write_decimal_octal_hex(va_list arg, const char** source);
+int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf*);
 int convert_to_dec(int input, int base);
 float scientific_to_float(char* string);
 long double char_to_dec(int* i, char str[]);

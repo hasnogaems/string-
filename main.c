@@ -16,23 +16,25 @@ int main(){
     // printf("s21: %s", stdout);
      //printf("ori: %s", stdout2);
 
-    char str[80], sstr[80];
+    char str[80]="HEEHEEHEE";
     char str21[]="HEYHEYHEY";//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то, с размером работает 6 работает 7 не работает а на убунте работает не взирая на это
     
     float y=44,z;
-    float i=555;
+   int i=555;
     
-    int ii, zz=77, zz1=88;
+    int ii=555, zz=77, zz1=88;
+    char input[]="HELL10000";
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("1.22e+10  1111 2 3 4 5", "%e%s%d", &i, str, &zz);
-    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-    s21sscanf("11.22e+10    1111 2 3 4 5", "%e%s%d", &y, str21, &zz1);
+    sscanf("HELL10000", "HELL%d%s", &ii, str);
+    // 4
+    // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
+   s21sscanf(input, "HELL%d%s", &zz, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%f %s %d\n", y, str21, zz1);
-    printf("orig:%f %s %d\n", i, str, zz);
+    printf("\nmain printf string:%d %s\n",zz, str21 );
+    printf("orig: %d %s\n",  ii, str);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

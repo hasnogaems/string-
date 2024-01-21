@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 typedef struct sscanFlags{
     int d;
 } sscanFlags;
@@ -18,14 +19,21 @@ va_start(args, format);
 // printf("INT X IN MAIN=%d\n", *x);
 char* tmp;
 flagscanf Flagscanf={{0}, 0};
-while(*format!='\0'){
+int i=0;
+while(*format!='\0'&&*source!='\0'){
     printf("22 here?\n");
-    if(*format=='%'){
+    int failed=0;
+    while(*format==*source && *source != '%'){
+        source++;
+        format++;
+
+    }
+    if(*format=='%'&&Flagscanf.failed==0){
         format++;
         Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0 почему не растет указатель я разименовываю 1 раз, значит должен расти формат
         scanfparser_spec(format, &Flagscanf); // заполняем спецификаторы например d или s
         //Flagscanf=scanfparser(format);
-        scanf_concat_type(Flagscanf, args, &source); //возвращаем то, что мы пишем в переменную,
+        scanf_concat_type(&Flagscanf, args, &source); //возвращаем то, что мы пишем в переменную,
         //va_arg(args,char*);
         printf("tmp=%s\n", tmp);
         //как вообще подставить в функцию имя переменной когда оно само переменная?
@@ -35,7 +43,7 @@ while(*format!='\0'){
         
     }
     format++;
-
+i++;
 
 }
 printf("Flagscanf:\nbase.integer=%d\nbase.string=%d\nfplus=%d\n", Flagscanf.base.integer, Flagscanf.base.string, Flagscanf.fplus);
@@ -107,7 +115,8 @@ flagscanf scanfparser_flags(const char** format){
     }
        }      
  
-int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
+int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source ){
+    Flags->failed=1;
     int* i=va_arg(arg, int*);// какое будет поведение у  va_arg  если тип аргумента не соответствует, например мы указываем int* а там лежит  char*
     printf("VALUE OF INT I FROM MAIN=%d\n", *i);
     while(**source==' ')(*source)++;
@@ -119,8 +128,8 @@ int* scanf_write_int(flagscanf Flags, va_list arg, const char** source ){
     if(**source=='\0'||**source==' '||(**source>=0&&**source<=57&&**source!=32)){ //это нужно чтобы не двигало курсор если мы пытаемся прочитать строку как d
     while(**source!='\0'&&**source!=' '){
         if(**source>=0&&**source<=57&&**source!=32){
-            is_int=1;
-            while(**source!=' '){
+            is_int=1; Flags->failed=0;
+            while(**source!=' '&&**source!='\0'){
                 *pbuffer=**source;
                 pbuffer++;
                 (*source)++;
@@ -153,11 +162,15 @@ return i;
 
 }
 
-char* scanf_write_string(flagscanf Flags, va_list arg, const char** source){
+char* scanf_write_string(flagscanf* Flags, va_list arg, const char** source){
+
+    while(**source==' '){
+        (*source)++;
+    }
     char* variable=va_arg(arg, char*);
-    char buffer[300];
+    char buffer[300]="11";
     int wcount=0;//счетчик сколько раз мы записали, чтобы отмотать
-    while(**source!=' '){ //пишем из source в буфер, а почему нельзя сразу писать в variable?
+    while(**source!=' '&&**source!='\0'){ //пишем из source в буфер, а почему нельзя сразу писать в variable?
         variable[wcount]=**source;
         wcount++;
         (*source)++;
@@ -173,7 +186,7 @@ char* scanf_write_string(flagscanf Flags, va_list arg, const char** source){
     // }
    
     
-        printf("BUFFER=%s\n", buffer);
+        printf("\nBUFFER=%s\n", buffer);
         printf("VARIABLE=%s\n", variable);
 
     
@@ -182,26 +195,27 @@ return variable;
 
 }
 
-   void scanf_concat_type(flagscanf Flags, va_list arg, const char** source){
+   void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source){
     void* add_this=malloc(10000);
-    if(Flags.base.integer==1){
+    if(Flags->base.integer==1){
        add_this=(void*)scanf_write_int(Flags, arg, source);
     }
-    if(Flags.base.string==1){
+    if(Flags->base.string==1){
         add_this=scanf_write_string(Flags, arg, source);
     }
-    if(Flags.base.decimal_octal_hex==1){
-        add_this=(void*)scanf_write_decimal_octal_hex(arg, source);
+    if(Flags->base.decimal_octal_hex==1){
+        add_this=(void*)scanf_write_decimal_octal_hex(arg, source, Flags);
         // printf("ADDTHIS=%d\n", *((int*)add_this)); interesting segfault 
     }
-    if(Flags.base.e==1){
-        sscanf_write_e(arg, source);
+    if(Flags->base.e==1){
+        sscanf_write_e(arg, source, Flags);
     }
    
     //return (void*)add_this; //мы допишем это в str вместо %d
    }     
 
-int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
+int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* Flags){
+    Flags->failed=1;
     int* variable_adress=va_arg(arg, int*);
     int buffer_integer;
     while(**source==' ')(*source)++;
@@ -211,6 +225,7 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
     int is_hex=0;
     int is_octal=0;
     if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
+        Flags->failed=0;
         while(**source!='\0'&&**source!=' '){
             if(**source>=0&&**source<=57&&is_int_f(**source)){
                 if(**source=='0'&&*(*source+1)=='x'){ //priority of * highter than + but not highter than ++ seems like
@@ -251,15 +266,17 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source){
 
 }
 
-void sscanf_write_e(va_list arg, const char** source){
+void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags){
+    Flags->failed=1;
     float* variable_address=va_arg(arg, float*);
     float buffer_float;
     
     while(**source==' ')(*source)++;
-    char buffer[1000];
+    char buffer[1000000];
     char* pbuffer=buffer;
     number_type type={0};
     if(**source>=0&&**source<=57&&**source!=32){
+        Flags->failed=0;
         while(**source!='\0'&&**source!=' '){
             if(**source=='0'&&*(*source+1)=='x'){
                 type.is_hex=1; (*source)=(*source)+2;}//skip 0x to number
@@ -284,7 +301,32 @@ void sscanf_write_e(va_list arg, const char** source){
         }
         int integer_from_string=atoi(buffer);
     if(type.is_scientific)
-    *variable_address=scientific_to_float(buffer);  
+    *variable_address=scientific_to_float(buffer); 
+    if(Flags->failed==1){
+        if((strncmp(*source, "inf", 3)==0) ||
+        (strncmp(*source, "INF", 3)==0) ||
+        (strncmp(*source, "Inf", 3)==0) ||
+        (strncmp(*source, "inF", 3)==0) ||
+        (strncmp(*source, "InF", 3)==0) ||
+        (strncmp(*source, "iNF", 3)==0))
+        {
+            *variable_address=INFINITY;
+            Flags->failed=0;
+            *source += 3;
+        }
+    if((strncmp(*source, "nan", 3)==0) ||
+        (strncmp(*source, "NAN", 3)==0) ||
+        (strncmp(*source, "NaN", 3)==0) ||
+        (strncmp(*source, "Nan", 3)==0) ||
+        (strncmp(*source, "naN", 3)==0) ||
+        (strncmp(*source, "nAN", 3)==0) )
+        {
+            *variable_address=NAN;
+            Flags->failed=0;
+            *source += 3;
+        }    
+
+    } 
     
             
     }
@@ -296,6 +338,7 @@ int is_int_f(char c){
     x=1;
     return x;
 }
+
 
 
 
