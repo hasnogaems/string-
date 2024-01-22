@@ -21,20 +21,22 @@ int main(){
     
     float y=44,z;
    int i=555;
-    
+    void* ptr;
+    void* ptr21;
+    char pointer_array[300];
     int ii=555, zz=77, zz1=88;
     char input[]="HELL10000";
-    
+    sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("HELL10000", "HELL%d%s", &ii, str);
+    sscanf("0x7fff2c40e104", "%p%s", &ptr, str);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   s21sscanf(input, "HELL%d%s", &zz, str21);
+   s21sscanf(pointer_array, "%p%s", &ptr21, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%d %s\n",zz, str21 );
-    printf("orig: %d %s\n",  ii, str);
+    printf("\nmain printf string:%p %s\n",ptr21, str21 );
+    printf("orig: %p %s\n",  ptr, str);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

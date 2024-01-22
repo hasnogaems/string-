@@ -12,6 +12,7 @@ typedef struct flags{
     int decimal_octal_hex;
     int move_format;
     int e;
+    int p;
 
 } flags;
 

@@ -203,7 +203,7 @@ return variable;
     if(Flags->base.string==1){
         add_this=scanf_write_string(Flags, arg, source);
     }
-    if(Flags->base.decimal_octal_hex==1){
+    if(Flags->base.decimal_octal_hex==1||Flags->base.p){
         add_this=(void*)scanf_write_decimal_octal_hex(arg, source, Flags);
         // printf("ADDTHIS=%d\n", *((int*)add_this)); interesting segfault 
     }
@@ -230,12 +230,12 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
             if(**source>=0&&**source<=57&&is_int_f(**source)){
                 if(**source=='0'&&*(*source+1)=='x'){ //priority of * highter than + but not highter than ++ seems like
                 is_hex=1;(*source)=(*source)+2;}
-                if(**source=='0'&&is_int_f(*(*source)+1)){
+                if(**source=='0'&&is_int_f(*(*source)+1)&&!is_hex){
                    // if(**source=='0'&&is_int_f(&((*source)+1))){ почему так нельзя хотел передавать функции указатель на указатель, переделал функцию чтобы брала чар
                 is_octal=1;(*source)++;
                 }
              if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
-             while(**source!=' '){
+             while(**source!=' '&&**source!='\0'){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
                //cannot do that? buffer++;
@@ -254,7 +254,10 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
     buffer_integer=atoi(buffer);
 
     if(is_hex){
-        *variable_adress=convert_to_dec(buffer_integer, 16);
+        char* endptr;
+        
+        long int result = strtol(buffer, &endptr, 16);
+        *variable_adress=result;
     }
     if(is_octal){
         *variable_adress=convert_to_dec(buffer_integer, 8);
