@@ -28,10 +28,10 @@ int main(){
     char input[]="HELL10000";
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("0x7fff2c40e104", "%i%s", &zz, str);
+    sscanf("-11", "%o%s", &zz, str);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   s21sscanf("0x7fff2c40e104", "%i%s", &ii, str21);
+   s21sscanf("-11", "%o%s", &ii, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);

@@ -153,11 +153,16 @@ return s;
 
 }
 
-    flags    parser(const char **format, flags Flags){
+flags    parser(const char **format, flags Flags){
         //flags Flags={0};
         //(*format)++;
-        while(**format=='d'||**format=='s'||**format=='i'||**format=='e'||**format=='E'||**format=='p'){
+        while(**format=='d'||**format=='s'||**format=='i'||**format=='e'||**format=='o'||**format=='E'||**format=='g'||**format=='G'||**format=='f'){
            printf("here?:parser163");
+    //           case 'e':
+    // case 'E':
+    // case 'g':
+    // case 'G':
+    // case 'f':
         switch(**format){
             
         case 'd':
@@ -169,17 +174,18 @@ return s;
             Flags.move_format=2;
             break;  
         case 'i':
+        case 'o':
             Flags.decimal_octal_hex=1;
             break;   
         case 'e':
-            Flags.e=1;
-            break; 
         case 'E':
+        case 'g':
+        case 'G':
+        case 'f':
             Flags.e=1;
-            break;        
-        case 'p':
-            Flags.p=1;   
             break; 
+        // case 'o':
+        //     Flags.octal=1;        
         default:
             break;  }
             
@@ -190,7 +196,7 @@ return s;
 
     }
 
-    int convert_to_dec(int input, int base){
+    int convert_to_dec(int input, int base, int minus){
     int power=0;
     int dec=0;
     
@@ -198,7 +204,7 @@ return s;
     dec=dec+(input%10)*pow(base, power);
     input=input/10;
     power++;}
-    return dec;
+    return minus ? dec*-1.0:dec;
 }
 
    float scientific_to_float(char* string){

@@ -13,6 +13,7 @@ typedef struct flags{
     int move_format;
     int e;
     int p;
+    int octal;
 
 } flags;
 
@@ -31,6 +32,8 @@ typedef struct {
     int is_scientific;
 } number_type;
 
+
+
 int s21_sprintf(char *str, const char *format, ...);
 char* write_string(flags Flags, va_list arg);
 char* write_int(flags Flags, va_list arg);
@@ -43,7 +46,7 @@ void scanfparser_spec(const char *format, flagscanf*);
 void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source);                  
 flagscanf scanfparser_flags(const char** format);
 int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf*);
-int convert_to_dec(int input, int base);
+int convert_to_dec(int input, int base, int minus);
 float scientific_to_float(char* string);
 long double char_to_dec(int* i, char str[]);
 int is_int_f(char);

@@ -268,10 +268,10 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
         *variable_adress=hex_to_dex(buffer, 16, Flags, minus);
     }
     if(is_octal){
-        *variable_adress=convert_to_dec(buffer_integer, 8);
+        *variable_adress=convert_to_dec(buffer_integer, 8, minus);
     }
     if(is_int){
-        *variable_adress=buffer_integer;
+        *variable_adress=minus ? -1.0*buffer_integer:1*buffer_integer;
     }
     
 
