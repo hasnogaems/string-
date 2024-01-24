@@ -220,10 +220,16 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
     int buffer_integer;
     while(**source==' ')(*source)++;
     char buffer[1000];
+    
+    
     char* pbuffer=buffer;
     int is_int=0;
     int is_hex=0;
     int is_octal=0;
+    int minus=0;
+    if(**source=='-'){
+        minus=1;(*source)++;
+    }
     if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
         Flags->failed=0;
         while(**source!='\0'&&**source!=' '){
@@ -252,12 +258,14 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
 
     }
     buffer_integer=atoi(buffer);
+    printf("buffer_integer=%d", buffer_integer);
 
     if(is_hex){
-        char* endptr;
+        // char* endptr;
         
-        long int result = strtol(buffer, &endptr, 16);
-        *variable_adress=result;
+        // long int result = strtol(buffer, &endptr, 16);
+        // *variable_adress=result;
+        *variable_adress=hex_to_dex(buffer, 16, Flags, minus);
     }
     if(is_octal){
         *variable_adress=convert_to_dec(buffer_integer, 8);

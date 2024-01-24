@@ -28,15 +28,15 @@ int main(){
     char input[]="HELL10000";
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("0x7fff2c40e104", "%p%s", &ptr, str);
+    sscanf("0x7fff2c40e104", "%i%s", &zz, str);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   s21sscanf(pointer_array, "%p%s", &ptr21, str21);
+   s21sscanf("0x7fff2c40e104", "%i%s", &ii, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%p %s\n",ptr21, str21 );
-    printf("orig: %p %s\n",  ptr, str);
+    printf("\nmain printf string:%i %s\n",ii, str21 );
+    printf("orig: %i %s\n",  zz, str);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }
