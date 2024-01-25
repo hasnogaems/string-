@@ -26,17 +26,18 @@ int main(){
     char pointer_array[300];
     int ii=555, zz=77, zz1=88;
     char input[]="HELL10000";
+    int count_scanf, count_s21_scanf;
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf("-11", "%o%s", &zz, str);
+    count_scanf=("11", "%o%s", &zz, str);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   s21sscanf("-11", "%o%s", &ii, str21);
+   count_s21_scanf=("11", "%o%s", &ii, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%i %s\n",ii, str21 );
-    printf("orig: %i %s\n",  zz, str);
+    printf("\nmain printf string:%i %s\ns21 count=%d\n",ii, str21, count_s21_scanf );
+    printf("orig: %i %s\norig count=%d\n",  zz, str, count_scanf);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

@@ -210,9 +210,14 @@ return variable;
     if(Flags->base.e==1){
         sscanf_write_e(arg, source, Flags);
     }
+    if(Flags->base.o==1){
+        sscanf_write_o(arg, source, Flags);
+    }
    
     //return (void*)add_this; //мы допишем это в str вместо %d
-   }     
+   }  
+
+
 
 int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* Flags){
     Flags->failed=1;
@@ -348,6 +353,10 @@ int is_int_f(char c){
     if(c>=0&&c<=57&&c!=32)
     x=1;
     return x;
+}
+
+sscanf_write_o(arg, source, Flags){
+    
 }
 
 
