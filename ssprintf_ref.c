@@ -174,7 +174,6 @@ flags    parser(const char **format, flags Flags){
             Flags.move_format=2;
             break;  
         case 'i':
-        case 'o':
             Flags.decimal_octal_hex=1;
             break;   
         case 'e':
@@ -184,8 +183,8 @@ flags    parser(const char **format, flags Flags){
         case 'f':
             Flags.e=1;
             break; 
-        // case 'o':
-        //     Flags.octal=1;        
+        case 'o':
+            Flags.o=1;        
         default:
             break;  }
             
@@ -290,11 +289,11 @@ return return_this;
 
  long long int hex_to_dex(char str[], int base, flagscanf *param, int minus) {
   long long int result = 0x0;
-  param->failed = 1;
+ // param->failed = 1;
   char *start_str = str;
   long long int sign = minus ? -1.0:1;
   
-      base = 16;
+    //  base = 16;
   
   
 
@@ -321,9 +320,9 @@ return return_this;
       str++;
      
     }
-    param->failed = 0;
+   // param->failed = 0;
   }
-  if (param->failed == 1) *str = *start_str;
+//   if (param->failed == 1) *str = *start_str;
   return result * sign;
 } 
 

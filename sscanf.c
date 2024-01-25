@@ -355,9 +355,68 @@ int is_int_f(char c){
     return x;
 }
 
-sscanf_write_o(arg, source, Flags){
+void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
+     Flags->failed=1;
+    int* variable_adress=va_arg(arg, int*);
+    int buffer_integer;
+    while(**source==' ')(*source)++;
+    char buffer[1000];
     
+    
+    char* pbuffer=buffer;
+    int is_int=0;
+    int is_hex=0;
+    int is_octal=0;
+    int minus=0;
+    if(**source=='-'){
+        minus=1;(*source)++;
+    }
+    if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
+        Flags->failed=0;
+        while(**source!='\0'&&**source!=' '&&is_int_f(**source)){
+            if(**source>=0&&**source<=57&&is_int_f(**source)){
+               
+                if(**source=='0'&&is_int_f(*(*source)+1)&&!is_hex){
+                   // if(**source=='0'&&is_int_f(&((*source)+1))){ почему так нельзя хотел передавать функции указатель на указатель, переделал функцию чтобы брала чар
+                is_octal=1;(*source)++;
+                }
+             if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
+             while(**source!=' '&&**source!='\0'&&is_int_f(**source)){
+                *pbuffer=**source;
+               //cannot do that? (&buffer)++;
+               //cannot do that? buffer++;
+               //must make char* pbuffer=buffer ?
+                (*source)++;
+                pbuffer++;
+                //count++;
+
+             }
+            *pbuffer='\0';
+             
+            }
+        }
+
+    }
+    buffer_integer=atoi(buffer);
+    printf("buffer_integer=%d", buffer_integer);
+
+    if(is_hex){
+        // char* endptr;
+        
+        // long int result = strtol(buffer, &endptr, 16);
+        // *variable_adress=result;
+        *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+    }
+    if(is_octal){
+        *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+    }
+    if(is_int){
+       *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+    }
+    
+
 }
+
 
 
 

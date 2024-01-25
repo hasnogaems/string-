@@ -14,6 +14,7 @@ typedef struct flags{
     int e;
     int p;
     int octal;
+    int o;
 
 } flags;
 
@@ -53,3 +54,4 @@ int is_int_f(char);
 long double exponent_f(char exp[], float pre_plus_post);
 long int set_sign(char **str, flagscanf *param);
 long long int hex_to_dex(char str[], int base, flagscanf *param, int);
+void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags);
