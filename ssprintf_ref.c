@@ -287,7 +287,7 @@ printf("\n\nEXPONENTED=%f\n\n", return_this);
 return return_this;
   }
 
- long long int hex_to_dex(char str[], int base, flagscanf *param, int minus) {
+ long long int hex_to_dex(char str[], int base, flagscanf *param, int minus, const char** source) {
   long long int result = 0x0;
  // param->failed = 1;
   char *start_str = str;
@@ -300,26 +300,30 @@ return return_this;
 
     
   
-
+int break_=0;
   while (((*str >= 48 && *str <= 57) || (*str >= 65 && *str <= 70) ||
-          (*str >= 97 && *str <= 102)) ) {
+          (*str >= 97 && *str <= 102))&&break_==0 ) {
     if (*str >= 48 && *str <= 55) {
       result = (*str - '0') + result * base;
       str++;
+      (*source)++;
       
     } else if ((*str >= 56 && *str <= 57) && (base != 8)) {
       result = (*str - '0') + result * base;
       str++;
+      (*source)++;
      
     } else if ((*str >= 65 && *str <= 70) && (base != 8) && (base != 10)) {
       result = (*str - 55) + result * base;
       str++;
-      
+      (*source)++;
     } else if ((*str >= 97 && *str <= 102) && (base != 8) && (base != 10)) {
       result = (*str - 87) + result * base;
       str++;
-     
+      (*source)++;
     }
+    else{break_=1;}
+    
    // param->failed = 0;
   }
 //   if (param->failed == 1) *str = *start_str;

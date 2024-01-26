@@ -10,14 +10,14 @@ typedef struct sscanFlags{
 int s21sscanf(const char* source, const char *format, ...){
 va_list args;
 
-flagscanf sscan_Flags={{0}, 0};
+//flagscanf sscan_Flags={{0}, 0};
 
 va_start(args, format);
 // char* s=va_arg(args, char*);
 // printf("STRING FROM MAIN=%s\n", s);
 // int* x=va_arg(args, int*);
 // printf("INT X IN MAIN=%d\n", *x);
-char* tmp;
+//char* tmp; тут неинициализированный указатель вызывал сегу видимо
 flagscanf Flagscanf={{0}, 0};
 int i=0;
 while(*format!='\0'&&*source!='\0'){
@@ -35,7 +35,7 @@ while(*format!='\0'&&*source!='\0'){
         //Flagscanf=scanfparser(format);
         scanf_concat_type(&Flagscanf, args, &source); //возвращаем то, что мы пишем в переменную,
         //va_arg(args,char*);
-        printf("tmp=%s\n", tmp);
+ //       printf("tmp=%s\n", tmp);тут неинициализированный указатель вызывал сегу видимо
         //как вообще подставить в функцию имя переменной когда оно само переменная?
         //strcat(, tmp);
         //move_str=strlen(tmp);
@@ -263,7 +263,7 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
                 is_octal=1;(*source)++;
                 }
              if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
-             while(**source!=' '&&**source!='\0'){
+             while(**source!=' '&&**source!='\0'&&is_octal ? **source<'8':1){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
                //cannot do that? buffer++;
@@ -285,13 +285,13 @@ long long result;
     if(is_hex){
         // char* endptr;
         
-        result = hex_to_dex(buffer, 16, Flags, minus);
+        result = hex_to_dex(buffer, 16, Flags, minus, source);
         // *variable_adress=result;
        
         //*variable_adress=hex_to_dex(buffer, 16, Flags, minus);
     }
     if(is_octal){
-       result=hex_to_dex(buffer, 8, Flags, minus);
+       result=hex_to_dex(buffer, 8, Flags, minus, source);
     }
     if(is_int){
        result=minus ? -1.0*buffer_integer:1*buffer_integer;
@@ -389,6 +389,7 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
     int is_hex=0;
     int is_octal=0;
     int minus=0;
+    int count_reverse=0;
     if(**source=='-'){
         minus=1;(*source)++;
     }
@@ -402,6 +403,7 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
                 is_octal=1;(*source)++;
                 }
              if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
+             
              while(**source!=' '&&**source!='\0'&&is_int_f(**source)){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
@@ -409,13 +411,21 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
                //must make char* pbuffer=buffer ?
                 (*source)++;
                 pbuffer++;
+                count_reverse++;
                 //count++;
 
              }
             *pbuffer='\0';
+//тут была сега если вставить отмотку сюда, то идет бесконечный цикл и pbuffer растет вплоть до segfault
              
             }
+      
         }
+              while(count_reverse>0){ //отматываем source назад
+(*source)--;
+count_reverse--;
+pbuffer--;
+}
 
     }
     buffer_integer=atoi(buffer);
@@ -426,13 +436,13 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
         
         // long int result = strtol(buffer, &endptr, 16);
         // *variable_adress=result;
-        *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+        *variable_adress=hex_to_dex(buffer, 8, Flags, minus, source);
     }
     if(is_octal){
-        *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+        *variable_adress=hex_to_dex(buffer, 8, Flags, minus, source);
     }
     if(is_int){
-       *variable_adress=hex_to_dex(buffer, 8, Flags, minus);
+       *variable_adress=hex_to_dex(buffer, 8, Flags, minus, source);
     }
     
 
