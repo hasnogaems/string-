@@ -23,7 +23,8 @@ typedef struct flagscanf{
     int fspace, fminus, fplus, fsharp, fzero;
     int failed;
    // flags* name; если сделать так, то создастся ли структура name или только указатель на несуществующую структуру    
-    char* regular;
+   //char* regular;
+    int l, ll, h, L;
 } flagscanf;
 
 typedef struct {

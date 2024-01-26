@@ -102,10 +102,27 @@ flagscanf scanfparser_flags(const char** format){
         while(*format!='\0'&&*format!='%'&&*format!=' '){
             printf("here?:82");
         switch(*format){
-            case'[':
+           // case'[':
                 // logic parsing regular
-                Flags->regular == NULL;
-                break;
+                //Flags->regular == NULL;
+               // break;
+            case 'h':
+            Flags->h=1;
+            format++;
+            break;   
+            case 'l':
+            if(Flags->l==1){
+                Flags->ll=1;
+            }
+            else{
+            Flags->l=1;}
+                
+            format++;//странно что здесь отрабатывает нормально сдвиг
+            break;
+            case 'L':
+            Flags->L=1;
+            format++;
+            break;
             default:
                 Flags->base = parser(&format, Flags->base); 
         }
@@ -221,7 +238,7 @@ return variable;
 
 int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* Flags){
     Flags->failed=1;
-    int* variable_adress=va_arg(arg, int*);
+    //int* variable_adress=va_arg(arg, int*);
     int buffer_integer;
     while(**source==' ')(*source)++;
     char buffer[1000];
@@ -264,23 +281,27 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
     }
     buffer_integer=atoi(buffer);
     printf("buffer_integer=%d", buffer_integer);
-
+long long result;
     if(is_hex){
         // char* endptr;
         
-        // long int result = strtol(buffer, &endptr, 16);
+        result = hex_to_dex(buffer, 16, Flags, minus);
         // *variable_adress=result;
-        *variable_adress=hex_to_dex(buffer, 16, Flags, minus);
+       
+        //*variable_adress=hex_to_dex(buffer, 16, Flags, minus);
     }
     if(is_octal){
-        *variable_adress=convert_to_dec(buffer_integer, 8, minus);
+       result=hex_to_dex(buffer, 8, Flags, minus);
     }
     if(is_int){
-        *variable_adress=minus ? -1.0*buffer_integer:1*buffer_integer;
+       result=minus ? -1.0*buffer_integer:1*buffer_integer;
     }
-    
+     if(Flags->ll){ *(va_arg(arg, long long int *)) = (long long int)result;}
+        else if(Flags->l){*(va_arg(arg, long int *)) = (long int)result;}
+       
 
 }
+
 
 void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags){
     Flags->failed=1;
