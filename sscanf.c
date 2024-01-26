@@ -132,10 +132,10 @@ flagscanf scanfparser_flags(const char** format){
     }
        }      
  
-int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source ){
+int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source, long double* result ){
     Flags->failed=1;
-    int* i=va_arg(arg, int*);// какое будет поведение у  va_arg  если тип аргумента не соответствует, например мы указываем int* а там лежит  char*
-    printf("VALUE OF INT I FROM MAIN=%d\n", *i);
+   // int* i=va_arg(arg, int*);// какое будет поведение у  va_arg  если тип аргумента не соответствует, например мы указываем int* а там лежит  char*
+   // printf("VALUE OF INT I FROM MAIN=%d\n", *i);
     while(**source==' '||**source=='0')(*source)++;
     int i_i;
     char buffer[1000];
@@ -167,15 +167,15 @@ int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source ){
     }
     }
 
-    if(is_int)*i=i_i;
+    if(is_int)*result=i_i;
     
-    printf("INT WRITTEN TO MAIN VAR=%d\n", *i);
+    //printf("INT WRITTEN TO MAIN VAR=%d\n", *i);
 
     
     //x=itoa(va_arg(arg, int), x, 10);
     
     
-return i;
+//return i;
 
 }
 
@@ -214,30 +214,36 @@ return variable;
 
    void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source){
     void* add_this=malloc(10000);
-    long long int* result;
+    long double* result=calloc(1, sizeof(long double));
     if(Flags->base.integer==1){
-       add_this=(void*)scanf_write_int(Flags, arg, source);
+       add_this=(void*)scanf_write_int(Flags, arg, source, result);
     }
     if(Flags->base.string==1){
         add_this=scanf_write_string(Flags, arg, source);
     }
     if(Flags->base.decimal_octal_hex==1||Flags->base.p){
-        add_this=(void*)scanf_write_decimal_octal_hex(arg, source, Flags);
+        add_this=(void*)scanf_write_decimal_octal_hex(arg, source, Flags, result);
         // printf("ADDTHIS=%d\n", *((int*)add_this)); interesting segfault 
     }
     if(Flags->base.e==1){
-        sscanf_write_e(arg, source, Flags);
+        sscanf_write_e(arg, source, Flags, result);
     }
     if(Flags->base.o==1){
-        sscanf_write_o(arg, source, Flags);
+        sscanf_write_o(arg, source, Flags, result);
     }
+    if(!Flags->base.string){
+     if(Flags->ll){ 
+        *(va_arg(arg, long long int *)) = (long long int)*result;}
+        else if(Flags->l){*(va_arg(arg, long int *)) = (long int)*result;}
+        else if(Flags->h){*(va_arg(arg, short int *))= (short int)*result;}
+        else{*(va_arg(arg, int*))=(int)*result;}}
    
     //return (void*)add_this; //мы допишем это в str вместо %d
    }  
 
 
 
-int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* Flags){
+int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* Flags, long double* result){
     Flags->failed=1;
     //int* variable_adress=va_arg(arg, int*);
     int buffer_integer;
@@ -287,31 +293,31 @@ pbuffer--;
     }
     buffer_integer=atoi(buffer);
     printf("buffer_integer=%d", buffer_integer);
-long long result;
+//long long result;
     if(is_hex){
         // char* endptr;
         
-        result = hex_to_dex(buffer, 16, Flags, minus, source);
+        *result = hex_to_dex(buffer, 16, Flags, minus, source);
         // *variable_adress=result;
        
         //*variable_adress=hex_to_dex(buffer, 16, Flags, minus);
     }
     if(is_octal){
-       result=hex_to_dex(buffer, 8, Flags, minus, source);
+       *result=hex_to_dex(buffer, 8, Flags, minus, source);
     }
     if(is_int){
-       result=minus ? -1.0*buffer_integer:1*buffer_integer;
+       *result=minus ? -1.0*buffer_integer:1*buffer_integer;
     }
-     if(Flags->ll){ *(va_arg(arg, long long int *)) = (long long int)result;}
-        else if(Flags->l){*(va_arg(arg, long int *)) = (long int)result;}
-        else if(Flags->h){*(va_arg(arg, short int *))= (short int)result;}
-        else{*(va_arg(arg, int*))=(int)result;}
+    //  if(Flags->ll){ *(va_arg(arg, long long int *)) = (long long int)result;}
+    //     else if(Flags->l){*(va_arg(arg, long int *)) = (long int)result;}
+    //     else if(Flags->h){*(va_arg(arg, short int *))= (short int)result;}
+    //     else{*(va_arg(arg, int*))=(int)result;}
        
 
 }
 
 
-void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags){
+void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags, long double* result){
     Flags->failed=1;
     float* variable_address=va_arg(arg, float*);
     float buffer_float;
@@ -384,7 +390,7 @@ int is_int_f(char c){
     return x;
 }
 
-void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags){
+void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags, long double* result){
      Flags->failed=1;
     int* variable_adress=va_arg(arg, int*);
     int buffer_integer;

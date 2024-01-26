@@ -29,14 +29,14 @@ int main(){
     int count_scanf, count_s21_scanf;
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    count_scanf=sscanf("001976582", "%d%s", &zz, str);
+    count_scanf=sscanf("string_brokeb", "%lld%s", &input, str);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   count_s21_scanf=s21sscanf("001976582", "%d%s", &ii, str21);
+   count_s21_scanf=s21sscanf("string_brokeb", "%lld%s", &str, str21);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%li %s\ns21 count=%d\n",ii, str21, count_s21_scanf );
+    printf("\nmain printf string:%li %s\ns21 count=%d\n",ii, input, count_s21_scanf );
     printf("orig: %li %s\norig count=%d\n",  zz, str, count_scanf);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
