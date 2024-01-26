@@ -136,7 +136,7 @@ int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source ){
     Flags->failed=1;
     int* i=va_arg(arg, int*);// какое будет поведение у  va_arg  если тип аргумента не соответствует, например мы указываем int* а там лежит  char*
     printf("VALUE OF INT I FROM MAIN=%d\n", *i);
-    while(**source==' ')(*source)++;
+    while(**source==' '||**source=='0')(*source)++;
     int i_i;
     char buffer[1000];
     int count=0;
@@ -214,6 +214,7 @@ return variable;
 
    void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source){
     void* add_this=malloc(10000);
+    long long int* result;
     if(Flags->base.integer==1){
        add_this=(void*)scanf_write_int(Flags, arg, source);
     }
@@ -249,12 +250,13 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
     int is_hex=0;
     int is_octal=0;
     int minus=0;
+    int count_reverse=0;
     if(**source=='-'){
         minus=1;(*source)++;
     }
     if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
         Flags->failed=0;
-        while(**source!='\0'&&**source!=' '){
+        while(**source!='\0'&&**source!=' '&&is_octal ? **source<'8':1){
             if(**source>=0&&**source<=57&&is_int_f(**source)){
                 if(**source=='0'&&*(*source+1)=='x'){ //priority of * highter than + but not highter than ++ seems like
                 is_hex=1;(*source)=(*source)+2;}
@@ -270,14 +272,18 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
                //must make char* pbuffer=buffer ?
                 (*source)++;
                 pbuffer++;
-                //count++;
+                count_reverse++;
 
              }
             *pbuffer='\0';
              
             }
         }
-
+ while(count_reverse>0){ //отматываем source назад
+(*source)--;
+count_reverse--;
+pbuffer--;
+}
     }
     buffer_integer=atoi(buffer);
     printf("buffer_integer=%d", buffer_integer);
@@ -298,6 +304,8 @@ long long result;
     }
      if(Flags->ll){ *(va_arg(arg, long long int *)) = (long long int)result;}
         else if(Flags->l){*(va_arg(arg, long int *)) = (long int)result;}
+        else if(Flags->h){*(va_arg(arg, short int *))= (short int)result;}
+        else{*(va_arg(arg, int*))=(int)result;}
        
 
 }
