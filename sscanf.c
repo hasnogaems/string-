@@ -30,7 +30,8 @@ while(*format!='\0'&&*source!='\0'){
     }
     if(*format=='%'&&Flagscanf.failed==0){
         format++;
-        Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0 почему не растет указатель я разименовываю 1 раз, значит должен расти формат
+        //Flagscanf=scanfparser_flags(&format); // заполняем от ' ' до 0 почему не растет указатель я разименовываю 1 раз, значит должен расти формат
+        set_params(&Flagscanf, &format);
         scanfparser_spec(format, &Flagscanf); // заполняем спецификаторы например d или s
         //Flagscanf=scanfparser(format);
         scanf_concat_type(&Flagscanf, args, &source); //возвращаем то, что мы пишем в переменную,
@@ -48,6 +49,7 @@ i++;
 }
 printf("Flagscanf:\nbase.integer=%d\nbase.string=%d\nfplus=%d\n", Flagscanf.base.integer, Flagscanf.base.string, Flagscanf.fplus);
 //printf("Flagscanf:\nbase->integer=%d\n", Flagscanf.base.integer);
+printf("width=%d", Flagscanf.width);
 }
 
 // void scanfparser_spec(const char *format, flagscanf* Flags){
@@ -146,12 +148,14 @@ int* scanf_write_int(flagscanf* Flags, va_list arg, const char** source, long do
     while(**source!='\0'&&**source!=' '){
         if(**source>=0&&**source<=57&&**source!=32){
             is_int=1; Flags->failed=0;
-            while(**source!=' '&&**source!='\0'){
+            while(**source!=' '&&**source!='\0'&&Flags->width>0){
                 *pbuffer=**source;
                 pbuffer++;
                 (*source)++;
                count++;
+               Flags->width--;
             }
+            //if(Flags->width>0)buffer[Flags->width]='\0';
             
         i_i=atoi(buffer); //buffer почему-то остается в памяти, поэтому заводим счетчик count и зануляем buffer после atoi
         while(count>0){
@@ -187,10 +191,11 @@ char* scanf_write_string(flagscanf* Flags, va_list arg, const char** source){
     char* variable=va_arg(arg, char*);
     char buffer[300]="11";
     int wcount=0;//счетчик сколько раз мы записали, чтобы отмотать
-    while(**source!=' '&&**source!='\0'){ //пишем из source в буфер, а почему нельзя сразу писать в variable?
+    while(**source!=' '&&**source!='\0'&&Flags->width>0){ //пишем из source в буфер, а почему нельзя сразу писать в variable?
         variable[wcount]=**source;
         wcount++;
         (*source)++;
+        Flags->width--;
 
 
     }
@@ -214,6 +219,7 @@ return variable;
 
    void scanf_concat_type(flagscanf* Flags, va_list arg, const char** source){
     void* add_this=malloc(10000);
+    
     long double* result=calloc(1, sizeof(long double));
     if(Flags->base.integer==1){
        add_this=(void*)scanf_write_int(Flags, arg, source, result);
@@ -469,6 +475,25 @@ pbuffer--;
 
 }
 
+void width_function(const char **format, int *width) {
+   while (**format <= 57 && **format >= 48) {
+    *width = *width * 10 + (**format - '0');
+    (*format)++;
+
+    
+  }
+
+  }
+
+void set_params(flagscanf *Flags, const char **format) {
+  width_function(format,  &(Flags->width));
+  if (Flags->width == 0) {
+    Flags->width = -1;
+    Flags->failed = 0;
+  }
+
+  
+}
 
 
 

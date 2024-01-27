@@ -25,6 +25,7 @@ typedef struct flagscanf{
    // flags* name; если сделать так, то создастся ли структура name или только указатель на несуществующую структуру    
    //char* regular;
     int l, ll, h, L;
+    int width;
 } flagscanf;
 
 typedef struct {
@@ -57,3 +58,5 @@ long int set_sign(char *str);
 long long int hex_to_dex(char str[], int base, flagscanf *param, int,const char** source);
 void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags, long double*);
 float a_to_float(char* string);
+void width_function(const char **format, int *width);
+void set_params(flagscanf *Flags, const char **format);
