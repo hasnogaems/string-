@@ -19,7 +19,7 @@ int main(){
     char str[80]="HEEHEEHEE";
     char str21[]="HEYHEYHEY";//ставим сюда значение массива оно отрабатывает нормально, указываем просто размер и оно пишет не то, с размером работает 6 работает 7 не работает а на убунте работает не взирая на это
     
-    float y=44,z;
+    float y=44,z=55;
   int i=555;
     void* ptr;
     void* ptr21;
@@ -29,15 +29,15 @@ int main(){
     int count_scanf, count_s21_scanf;
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    count_scanf=sscanf("string_brokeb", "%lld%s", &input, str);
+    count_scanf=sscanf("-1.143e+3", "%e", &y);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   count_s21_scanf=s21sscanf("string_brokeb", "%lld%s", &str, str21);
+   count_s21_scanf=s21sscanf("-1.143e+3", "%e", &z);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%li %s\ns21 count=%d\n",ii, input, count_s21_scanf );
-    printf("orig: %li %s\norig count=%d\n",  zz, str, count_scanf);
+    printf("\nmain printf string:%f %s\ns21 count=%d\n",z, input, count_s21_scanf );
+    printf("orig: %f %s\norig count=%d\n",  y, str, count_scanf);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

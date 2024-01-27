@@ -213,6 +213,7 @@ flags    parser(const char **format, flags Flags){
     float post_dot_float;
     char exponent[1000000];
     int count=0;
+    int sign=set_sign(string);
     while(*string!='.'){
         pre_dot[count]=*(string);
         string++;
@@ -248,6 +249,7 @@ flags    parser(const char **format, flags Flags){
  }
  float return_this=pre_dot_float+post_dot_float;
  return_this=exponent_f(exponent, return_this);
+ return_this *= sign;
 
 
     
@@ -263,6 +265,7 @@ flags    parser(const char **format, flags Flags){
 
   long double char_to_dec(int* i, char str[]){
     long double result = 0.0;
+    if(*str=='-'||*str=='+')str++;
     while(*str>=48&&*str<=57) {//0 to 9
     (*i)++;
     result *= 10;
@@ -332,17 +335,59 @@ int break_=0;
 
  
 
- long int set_sign(char **str, flagscanf *param) {
+ long int set_sign(char *str) {
   long int sign = 1;
-  if (**str == '+') {
-    (*str)++;
-  } else if (**str == '-') {
+  if (*str == '+') {
+    str++;
+  } else if (*str == '-') {
     sign = -1.0;
-    (*str)++;
+    str++;
     
   }
   return sign;
 }
+
+float a_to_float(char* string){
+    char pre_dot[10000];
+    float pre_dot_float;
+    char post_dot[10000]="000000";
+    float post_dot_float;
+    char exponent[10000];
+    long long int sign=set_sign(string);
+    int count=0;
+    while(*string!='.'){
+        pre_dot[count]=*(string);
+        string++;
+        count++;
+
+    }
+    pre_dot[count]='\0';
+    count=0;
+    string++;
+    while(*string!=' '&&*string!='\0'&&is_int_f(*string)){
+        post_dot[count]=*string;
+        string++;count++;
+    }
+    post_dot[count]='\0';
+    count=0;
+    
+
+    
+    
+ int i=0; //количество знаков, заводим для знака после точки
+ pre_dot_float=(float)char_to_dec(&i, pre_dot);
+ i=0;
+ post_dot_float=(float)char_to_dec(&i, post_dot);
+ while(i>0){
+    post_dot_float /=10;
+    i--;
+
+ }
+ float return_this=pre_dot_float+post_dot_float;
+ 
+    return return_this*sign;
+
+   }
 
   
    

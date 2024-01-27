@@ -231,12 +231,15 @@ return variable;
     if(Flags->base.o==1){
         sscanf_write_o(arg, source, Flags, result);
     }
-    if(!Flags->base.string){
+    if(!Flags->base.string&&!Flags->base.e){
      if(Flags->ll){ 
         *(va_arg(arg, long long int *)) = (long long int)*result;}
         else if(Flags->l){*(va_arg(arg, long int *)) = (long int)*result;}
         else if(Flags->h){*(va_arg(arg, short int *))= (short int)*result;}
         else{*(va_arg(arg, int*))=(int)*result;}}
+    // if(Flags->base.e)
+    // {*(va_arg(arg, float*))=(float)*result;}    
+
    
     //return (void*)add_this; //мы допишем это в str вместо %d
    }  
@@ -323,11 +326,13 @@ void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags, long dou
     float buffer_float;
     
     while(**source==' ')(*source)++;
-    char buffer[1000000];
+    char buffer[10000];
     char* pbuffer=buffer;
     number_type type={0};
+    // int minus=0;
     if(**source>=0&&**source<=57&&**source!=32){
         Flags->failed=0;
+        // if(**source=='-')minus=1;
         while(**source!='\0'&&**source!=' '){
             if(**source=='0'&&*(*source+1)=='x'){
                 type.is_hex=1; (*source)=(*source)+2;}//skip 0x to number
@@ -353,6 +358,8 @@ void sscanf_write_e(va_list arg, const char** source, flagscanf* Flags, long dou
         int integer_from_string=atoi(buffer);
     if(type.is_scientific)
     *variable_address=scientific_to_float(buffer); 
+    else{
+    *variable_address=a_to_float(buffer);}
     if(Flags->failed==1){
         if((strncmp(*source, "inf", 3)==0) ||
         (strncmp(*source, "INF", 3)==0) ||
