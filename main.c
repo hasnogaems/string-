@@ -29,10 +29,10 @@ int main(){
     int count_scanf, count_s21_scanf;
     sprintf(pointer_array, "%p", &ptr21);
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    count_scanf=sscanf("45450.01976582", "%4d", &d);
+    count_scanf=sscanf("45450.01976582", "%3d", &d);
     // 4
     // if(strncmp(source, format, 4)source +=4;    //s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-   count_s21_scanf=s21sscanf("45450.01976582", "%4d", &i);
+   count_s21_scanf=s21sscanf("45450.01976582", "%3d", &i);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
