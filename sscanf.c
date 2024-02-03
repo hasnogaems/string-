@@ -271,7 +271,7 @@ int* scanf_write_decimal_octal_hex(va_list arg, const char** source, flagscanf* 
     }
     if(**source==' '||(**source>=0&&**source<=57&&**source!=32)){
         Flags->failed=0;
-        while(**source!='\0'&&**source!=' '&&is_octal ? **source<'8':1){
+        while(**source!='\0'&&**source!=' '&&is_octal ? **source<'8':1){ //вообще ведь нельзя вставить if в while условие? только через ?
             if(**source>=0&&**source<=57&&is_int_f(**source)){
                 if(**source=='0'&&*(*source+1)=='x'){ //priority of * highter than + but not highter than ++ seems like
                 is_hex=1;(*source)=(*source)+2;}
@@ -431,7 +431,7 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags, long dou
                 }
              if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
              
-             while(**source!=' '&&**source!='\0'&&is_int_f(**source)){
+             while(**source!=' '&&**source!='\0'/*&&is_int_f(**source)*/){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
                //cannot do that? buffer++;
