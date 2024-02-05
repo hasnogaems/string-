@@ -53,17 +53,17 @@ int main(){
     int y=44,z, i=5;
     y=5;
     int ii, zz=77, zz1=88;
-    char input[]="test-11";
+    char input[]="test-11hhh777";
     
     //sscanf("777 test 1111 2 3 4 5", "%s%d%d", str, &i, &ii);
-    sscanf(input, "test%o%s%d", &i, str, &zz);
+    sscanf("1221212", "%2d", &zz);
    // s21sscanf("777  test  1111 2 3 4 5", "%s%d%d", str21, &y, &z);
-    s21sscanf(input, "test%o%s%d", &y, str21, &zz1);
+    s21sscanf("1221212", "%2d", &zz1);
     //             source                           va_list arg
     //s21sscanf("hello 1111 2 3 4 5", "%d",&y);
      //s21sscanf("hello 1111 2 3 4 5", "%+d%s", &y, str21);
-    printf("\nmain printf string:%o %s %d\n", y, str21, zz1);
-    printf("orig:%o %s %d\n", i, str, zz);
+    printf("\nmain printf string:%d\n", zz1);
+    printf("orig:%d\n", zz);
     // printf("s21 : %s %d\n", str21, y);
     return 0;
 }

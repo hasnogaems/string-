@@ -431,7 +431,7 @@ void sscanf_write_o(va_list arg, const char** source, flagscanf* Flags, long dou
                 }
              if(!is_hex&&!is_octal)is_int=1;//пишем в variable только если флаг поднят, если я сделаю int is_int прямо сдесь это плохо, это значит будет переинициализация каждый цикл или норм и оно не будет нагружать программу и инициализирует только 1 раз?
              
-             while(**source!=' '&&**source!='\0'/*&&is_int_f(**source)*/){
+             while(**source!=' '&&**source!='\0'&&is_int_f(**source)){
                 *pbuffer=**source;
                //cannot do that? (&buffer)++;
                //cannot do that? buffer++;
